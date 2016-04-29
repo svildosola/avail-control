@@ -3,6 +3,27 @@
 
   <section class="au-animate">
     
+    <div class="avail-mainContainer">
+      
+      <table class="table table-bordered">
+        <thead>
+          <tr>   
+            <th></th>       
+            <th repeat.for="availSlot of availSlots">${availSlot.text}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr repeat.for="unit of units">
+            <td>${unit.id}</td>
+            <td repeat.for="availSlot of availSlots">
+              <div id="${unit.index}_${availSlot.index}"></div>                                          
+            </td>
+          </tr>
+        </tbody>        
+      </table>
+      
+      
+    </div>
     
     
   </section>

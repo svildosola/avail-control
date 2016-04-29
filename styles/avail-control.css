@@ -1,0 +1,27 @@
+.avail-mainContainer{
+    
+        
+    background-color: azure
+    
+}
+
+
+.avail-mainContainer table{
+    
+    table-layout: fixed;
+}
+
+.avail-mainContainer td{
+    
+    width: 10%;   
+    
+}
+
+
+
+.avail-res{
+    
+    background-color: red;
+    
+    
+}
