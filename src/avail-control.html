@@ -9,14 +9,14 @@
         <thead>
           <tr>   
             <th></th>       
-            <th repeat.for="availSlot of availSlots">${availSlot.text}</th>
+            <th repeat.for="columm of columns.columns">${columm.text}</th>
           </tr>
         </thead>
         <tbody>
-          <tr repeat.for="unit of units">
-            <td>${unit.id}</td>
-            <td repeat.for="availSlot of availSlots">
-              <div id="${unit.index}_${availSlot.index}"></div>                                          
+          <tr repeat.for="row of rows.rows">
+            <td>${row.text}</td>
+            <td repeat.for="column of columns.columns">
+              <div id="${row.index}_${column.index}"></div>                                          
             </td>
           </tr>
         </tbody>        
