@@ -69,24 +69,29 @@ export class AvailControl {
   
   attached(){
     
+    let lastColumn = this.columns.columns[this.columns.columns.length - 1]; 
     
     //iterate over reservations in order to paint them on the control
     for (let res of this.reservations)
     {
       let row: IRowData = this.rows.rowsAsProperties[res.unit]; //get row for reservation using the unit id
       let column: IColumnData = this.columns.columnsAsProperties[res.arrival.getTime()]; //get column using res arrival as column key
+      let endColumn: IColumnData = lastColumn.id >= res.departure ? this.columns.columnsAsProperties[res.departure.getTime()]: lastColumn;
       let $startCell = $("#" + row.index + "_" + column.index); //get cell where the res will be placed
+      let $endCell = $("#" + row.index + "_" + endColumn.index); //get end cell where the res will be placed
       
-      let lastColumn = this.columns.columns[this.columns.columns.length - 1]; 
+      let itemWidth = $endCell.offset().left - $startCell.offset().left - 5;
       
+      /*
       //compute res item width. if res departure date is greater than last displayed control column, then width can't be the reservation stay length
       let widthFactor: number = lastColumn.id >= res.departure ? res.stayLen : lastColumn.index - column.index;
       let columnWidth = $startCell.width();
       columnWidth += columnWidth * 0.20 //add 20% 
-       
+       */
+      
       //add res item element to dom 
       let $item = $("<div class='avail-res'><span>" + res.text + "</span></div>");  
-      $item.width( columnWidth * widthFactor);
+      $item.width(itemWidth);
       $startCell.html($item);   
     }
     
