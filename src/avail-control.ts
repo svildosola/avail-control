@@ -68,8 +68,24 @@ export class AvailControl {
   }
   
   attached(){
+    var self = this;
+    self.paintResItems();
+
+    //re-paint reservation items if window is browser windows size changes            
+    $(window).resize(function(){      
+      self.paintResItems();
+    });
+                                 
+  }
+  
+  /*=======================================================================
+  CONTROL METHODS
+  ========================================================================*/
+  paintResItems(){
     
-    let lastColumn = this.columns.columns[this.columns.columns.length - 1]; 
+    $(".avail-mainContainer").find(".avail-res").remove();
+    
+     let lastColumn = this.columns.columns[this.columns.columns.length - 1]; 
     
     //iterate over reservations in order to paint them on the control
     for (let res of this.reservations)
@@ -95,7 +111,6 @@ export class AvailControl {
       $startCell.html($item);   
     }
     
-  
   }
   
   
