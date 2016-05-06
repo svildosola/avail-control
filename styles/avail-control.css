@@ -1,7 +1,6 @@
 .avail-mainContainer{
     
         
-   // background-color: azure
     
 }
 
@@ -11,9 +10,11 @@
     table-layout: fixed;    
 }
 
+ 
+
 .avail-mainContainer td{
     
-    width: 10%;   
+   width: 10%;   
     
 }
 
@@ -22,7 +23,6 @@
 .avail-res{
     
     background-color: red;
-  //  margin-left: 10px;
     
     
 }
