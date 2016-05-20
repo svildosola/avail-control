@@ -65,6 +65,7 @@ export class AvailControl {
 
   activate() {
 
+
   }
   
   attached(){
