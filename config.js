@@ -23,8 +23,12 @@ System.config({
     "bootstrap": "github:twbs/bootstrap@3.3.6",
     "fetch": "github:github/fetch@0.11.0",
     "font-awesome": "npm:font-awesome@4.5.0",
-    "jquery": "npm:jquery@2.2.3",
+    "jquery": "npm:jquery@2.2.4",
+    "jquery-ui": "github:components/jqueryui@1.11.4",
     "text": "github:systemjs/plugin-text@0.0.3",
+    "github:components/jqueryui@1.11.4": {
+      "jquery": "npm:jquery@2.2.4"
+    },
     "github:twbs/bootstrap@3.3.6": {
       "jquery": "github:components/jquery@2.2.1"
     },

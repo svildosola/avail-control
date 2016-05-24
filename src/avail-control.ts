@@ -2,6 +2,8 @@ import {autoinject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import 'fetch';
 
+import 'jquery-ui';
+
 //Control interfaces
 
 /*
@@ -53,14 +55,17 @@ export class AvailControl {
   rows: IRows;
   columns: IColumms;
   reservations: IReservationDTO[];
+  unitsDto: any;
  
 
   constructor(private http: HttpClient) {
   
     this.createRows();
     this.createColumns();
-    this.reservations = this.getReservation(new Date(2016, 5, 1), new Date(2016, 5, 8)); //api call           
-                 
+    
+    //loading data
+    this.loadData(new Date(2016, 5, 1), new Date(2016, 5, 8));
+                                        
 }
 
   activate() {
@@ -71,6 +76,9 @@ export class AvailControl {
   attached(){
     var self = this;
     self.paintResItems();
+    
+    //datepicker
+    $("#datepicker").datepicker();    
 
     //re-paint reservation items if window is browser windows size changes            
     $(window).resize(function(){      
@@ -98,14 +106,7 @@ export class AvailControl {
       let $endCell = $("#" + row.index + "_" + endColumn.index); //get end cell where the res will be placed
       
       let itemWidth = $endCell.offset().left - $startCell.offset().left - 5;
-      
-      /*
-      //compute res item width. if res departure date is greater than last displayed control column, then width can't be the reservation stay length
-      let widthFactor: number = lastColumn.id >= res.departure ? res.stayLen : lastColumn.index - column.index;
-      let columnWidth = $startCell.width();
-      columnWidth += columnWidth * 0.20 //add 20% 
-       */
-      
+                 
       //add res item element to dom 
       let $item = $("<div class='avail-res'><span>" + res.text + "</span></div>");  
       $item.width(itemWidth);
@@ -121,11 +122,11 @@ export class AvailControl {
   createRows(){
     this.rows = {rows: [], rowsAsProperties: {}};
     
-     let unitsIds = this.getUnits(); //get units from api
+     this.unitsDto = this.getUnits(); //get units from api
     
-    for(let i=0; i<unitsIds.length; i++){
+    for(let i=0; i<this.unitsDto.length; i++){
       let row: IRowData;
-      row = {index: i, id: unitsIds[i], text: unitsIds[i]};
+      row = {index: i, id: this.unitsDto[i], text: this.unitsDto[i]};
       this.rows.rowsAsProperties[row.id] = row;
       this.rows.rows.push(row);
     }
@@ -148,6 +149,10 @@ export class AvailControl {
    
   }
   
+  loadData(dtFrom: Date, dtpTo: Date){    
+    this.reservations = this.getReservation(dtFrom, dtpTo, this.unitsDto); //api call            
+  }
+  
  
    
   /*==========================================================================
@@ -158,7 +163,7 @@ export class AvailControl {
     return ["U1-1", "U2-1", "U3-1", "U4-1", "U5-1", "U6-1"];
   }
   
-  getReservation(dtFrom: Date, dtTo: Date): IReservationDTO[] {
+  getReservation(dtFrom: Date, dtTo: Date, units: string[]): IReservationDTO[] {
     
     let resDtos: IReservationDTO[];
     resDtos = [
@@ -196,8 +201,8 @@ export class AvailControl {
     
     for (let res of resDtos)
     {
-      if (res.arrival >= dtFrom && res.arrival <= dtTo)
-        result.push(res);
+      if (res.arrival >= dtFrom && res.arrival <= dtTo && $.inArray(res.unit, units) > -1)      
+        result.push(res);                      
     }
     
     return result;
